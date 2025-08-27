@@ -6,7 +6,7 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    background: linear-gradient(135deg, #0a3d62 0%, #1e4d2b 30%, #1a1a2e 70%, #16213e 100%);
     min-height: 100vh;
     color: #333;
 }
@@ -60,6 +60,33 @@ h1 {
     object-fit: cover;
 }
 
+.hero-link {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.hero-link a {
+    color: #ffd700;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border: 2px solid #ffd700;
+    border-radius: 25px;
+    display: inline-block;
+    background: rgba(255, 215, 0, 0.2);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+.hero-link a:hover {
+    color: #0d1b2a;
+    background: #ffd700;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 215, 0, 0.5);
+    text-shadow: none;
+}
+
 .events-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -68,17 +95,44 @@ h1 {
 }
 
 .event-card {
-    background: white;
+    background: linear-gradient(135deg, #1a2332 0%, #2d3748 100%);
     border-radius: 15px;
     padding: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-left: 5px solid #d4af37;
+    color: #e2e8f0;
+    border: 1px solid #4a5568;
+}
+
+.event-card {
+    cursor: pointer;
+    position: relative;
 }
 
 .event-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+.event-card::after {
+    content: "📋 Click to copy Discord timestamp";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 215, 0, 0.9);
+    color: #0d1b2a;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.event-card:hover::after {
+    opacity: 1;
 }
 
 .event-card.past {
@@ -113,29 +167,76 @@ h1 {
     font-size: 1.4rem;
     font-weight: 600;
     margin-bottom: 15px;
-    color: #2a5298;
+    color: #60a5fa;
 }
 
 .event-time {
     font-size: 1.1rem;
     margin-bottom: 10px;
-    color: #666;
+    color: #a0aec0;
 }
 
 .event-time.local {
     font-weight: 600;
-    color: #2a5298;
+    color: #60a5fa;
     font-size: 1.2rem;
 }
 
 .event-time.utc {
     font-size: 0.9rem;
-    color: #888;
+    color: #718096;
+}
+
+.next-event-countdown {
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.countdown-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.countdown-label {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #ffd700;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.countdown-timer {
+    font-family: 'Courier New', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+    letter-spacing: 2px;
+}
+
+.countdown {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-align: center;
+    margin: 10px 0;
+    padding: 8px;
+    background: rgba(255, 215, 0, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .event-date {
     font-size: 1rem;
-    color: #666;
+    color: #a0aec0;
     margin-bottom: 5px;
 }
 
@@ -167,12 +268,19 @@ h1 {
 footer {
     text-align: center;
     color: white;
-    opacity: 0.8;
+    opacity: 0.9;
     font-size: 0.9rem;
+    margin-top: 20px;
 }
 
 footer p {
-    margin: 5px 0;
+    margin: 8px 0;
+}
+
+#user-timezone {
+    color: #00ff88;
+    font-weight: 600;
+    text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
 }
 
 @media (max-width: 768px) {
@@ -191,4 +299,52 @@ footer p {
     .event-card {
         padding: 20px;
     }
+}
+
+/* Copy notification styles */
+.copy-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+    color: #0d1b2a;
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    z-index: 1000;
+    transform: translateX(400px);
+    transition: transform 0.3s ease;
+    max-width: 350px;
+    border: 2px solid #0d1b2a;
+}
+
+.copy-notification.show {
+    transform: translateX(0);
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+.notification-message {
+    font-size: 0.9rem;
+    word-break: break-all;
+    line-height: 1.3;
 }

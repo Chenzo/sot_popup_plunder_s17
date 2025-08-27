@@ -10,27 +10,31 @@
 <body>
     <div class="container">
         <header>
-            <h1>🏴‍☠️ Sea of Thieves Community Events</h1>
-            <p class="subtitle">Upcoming community events with automatic timezone conversion</p>
-            <div class="timezone-info">
-                <span>Your local timezone: </span>
-                <span id="user-timezone">Detecting...</span>
-            </div>
+            <h1>🏴‍☠️ Sea of Thieves Season 17 Community Weekend</h1>
+            <p class="subtitle">Upcoming <strong>pop-up plunder</strong> with automatic timezone conversion</p>
             <div class="hero-image">
                 <a href="https://www.seaofthieves.com/news/season-17-community-weekend#:~:text=Pop%2DUp%20Plunder%20Evolves" target="_blank" rel="noopener noreferrer">
                     <img src="https://rare-assets.azureedge.net/assets/a8/55/a8556012-c106-4de5-b388-d2740ce9ccea.jpg?n=S17CommWknd_PopUpPlunder_1600.jpg" alt="Sea of Thieves Community Weekend" />
                 </a>
+                <div class="hero-link">
+                    <a href="https://www.seaofthieves.com/news/season-17-community-weekend" target="_blank" rel="noopener noreferrer">
+                        🌊 Read more about Season 17 Community Weekend
+                    </a>
+                </div>
             </div>
         </header>
 
         <main>
+            <div class="next-event-countdown" id="next-event-countdown">
+                <!-- Next event countdown will be populated by JavaScript -->
+            </div>
             <div class="events-container" id="events-container">
                 <!-- Events will be populated by JavaScript -->
             </div>
         </main>
 
         <footer>
-            <p>⏰ All times are automatically converted to your local timezone</p>
+            <p>⏰ All times are automatically converted to your local timezone: <span id="user-timezone">Detecting...</span></p>
             <p>Original times are in UTC</p>
         </footer>
     </div>

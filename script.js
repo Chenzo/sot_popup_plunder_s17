@@ -45,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update times every minute
     setInterval(renderEvents, 60000);
+    
+    // Update countdown every second
+    setInterval(updateCountdowns, 1000);
 });
 
 // Display user's timezone
@@ -118,11 +121,14 @@ function createEventElement(event) {
         hour12: true,
         timeZone: 'UTC'
     });
-    const dateOnly = localDate.toLocaleDateString('en-US', {
+    // Format UTC date and time together
+    const utcDateFormatted = utcDate.toLocaleDateString('en-US', {
         weekday: 'long',
         month: 'long',
-        day: 'numeric'
+        day: 'numeric',
+        timeZone: 'UTC'
     });
+    const utcDateTime = `${utcDateFormatted}, ${utcTime}`;
     
     let statusText = '';
     let statusClass = '';
@@ -144,14 +150,115 @@ function createEventElement(event) {
     
     eventDiv.innerHTML = `
         <div class="event-number">${event.description}</div>
-        <div class="event-location">${event.location}</div>
-        <div class="event-date">${dateOnly}</div>
         <div class="event-time local">${localTime}</div>
-        <div class="event-time utc">UTC: ${utcTime}</div>
+        <div class="event-location">${event.location}</div>
+        <div class="event-time utc">UTC: ${utcDateTime}</div>
         <div class="status-badge ${statusClass}">${statusText}</div>
     `;
     
+    // Add click handler to copy Discord timestamp
+    eventDiv.addEventListener('click', () => copyDiscordTimestamp(event));
+    
     return eventDiv;
+}
+
+// Copy Discord timestamp to clipboard
+function copyDiscordTimestamp(event) {
+    const utcDate = new Date(event.utcTime);
+    const unixTimestamp = Math.floor(utcDate.getTime() / 1000);
+    const discordTimestamp = `PopUp Plunder - ${event.description} - ${event.location} <t:${unixTimestamp}:R>`;
+    
+    // Copy to clipboard
+    navigator.clipboard.writeText(discordTimestamp).then(() => {
+        showCopyNotification(discordTimestamp);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = discordTimestamp;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        showCopyNotification(discordTimestamp);
+    });
+}
+
+// Update the next event countdown
+function updateCountdowns() {
+    const now = new Date();
+    const upcomingEvents = events.filter(event => new Date(event.utcTime) > now);
+    
+    if (upcomingEvents.length > 0) {
+        const nextEvent = upcomingEvents[0];
+        const countdown = calculateCountdown(nextEvent.utcTime);
+        const countdownElement = document.getElementById('next-event-countdown');
+        countdownElement.innerHTML = `
+            <div class="countdown-display">
+                <span class="countdown-label">Next Pop-Up Plunder: ${nextEvent.description} in</span>
+                <span class="countdown-timer">${countdown}</span>
+            </div>
+        `;
+    } else {
+        const countdownElement = document.getElementById('next-event-countdown');
+        countdownElement.innerHTML = `
+            <div class="countdown-display">
+                <span class="countdown-label">All events have completed!</span>
+            </div>
+        `;
+    }
+}
+
+// Calculate countdown for a specific event
+function calculateCountdown(utcTime) {
+    const now = new Date();
+    const eventTime = new Date(utcTime);
+    const timeDiff = eventTime - now;
+    
+    if (timeDiff <= 0) {
+        return 'Event has started!';
+    }
+    
+    const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+    
+    return `${days.toString().padStart(2, '0')}:${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+}
+
+// Show copy notification
+function showCopyNotification(text) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'copy-notification';
+    notification.innerHTML = `
+        <div class="notification-content">
+            <div class="notification-icon">📋</div>
+            <div class="notification-text">
+                <div class="notification-title">Copied to clipboard!</div>
+                <div class="notification-message">${text}</div>
+            </div>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
 }
 
 // Add some pirate-themed console messages
