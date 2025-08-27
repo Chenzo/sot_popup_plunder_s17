@@ -42,11 +42,7 @@ const events = [
 document.addEventListener('DOMContentLoaded', function() {
     displayUserTimezone();
     renderEvents();
-    
-    // Update times every minute
     setInterval(renderEvents, 60000);
-    
-    // Update countdown every second
     setInterval(updateCountdowns, 1000);
 });
 
