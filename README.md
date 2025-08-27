@@ -5,6 +5,30 @@ A site that displays Sea of Thieves Season 17 Popup Plunder with automatic timez
 https://Chenzo.github.io/sot_community_popup
 
 
+## 🚀 Local Development
+
+To run this site locally for development:
+
+### Starting the Local Server
+```bash
+python3 -m http.server 8000
+```
+
+Then open your browser and visit: `http://localhost:8000`
+
+### Stopping the Local Server
+If you have the terminal open where the server is running:
+- Press `Ctrl + C` (or `Cmd + C` on Mac)
+
+If you don't have access to the terminal:
+```bash
+# Find the process
+lsof -i :8000
+
+# Kill it using the PID shown
+kill [PID]
+```
+
 ## 📅 Current Events
 
 The site currently displays these community events:
