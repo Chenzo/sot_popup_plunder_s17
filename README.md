@@ -2,7 +2,7 @@
 
 A site that displays Sea of Thieves Season 17 Popup Plunder with automatic timezone conversion.
 
-https://Chenzo.github.io/sot_community_popup
+https://Chenzo.github.io/sot_popup_plunder_s17
 
 
 ## 🚀 Local Development
