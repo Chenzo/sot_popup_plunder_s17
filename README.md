@@ -17,12 +17,6 @@ The site currently displays these community events:
 - **Spot 6**: Plunder Valley - August 31st, 6:00 PM UTC
 
 
-## 🌐 How It Works
-
-1. **Timezone Detection**: Uses the browser's `Intl.DateTimeFormat()` API to detect the user's timezone
-2. **Time Conversion**: Converts UTC times to local times using JavaScript's built-in Date methods
-3. **Real-time Updates**: Refreshes event status every minute
-4. **Status Calculation**: Determines if events are past, upcoming, or urgent based on current time
 
 ## 🤝 Contributing
 
