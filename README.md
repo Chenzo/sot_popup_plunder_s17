@@ -46,6 +46,18 @@ The site currently displays these community events:
 
 Feel free to fork this repository and submit pull requests for improvements!
 
+## 🌐 Connect With Me
+
+- **Bluesky**: [@chenzo.bsky.social](https://bsky.app/profile/chenzo.bsky.social)
+
+## 🏴‍☠️ Sea of Thieves Community Discord Servers
+
+Join these amazing Sea of Thieves communities:
+
+- **[Gentlemen of Fortune](http://discord.gg/DuR7U54)** 
+- **[Keelhauled Podcast](https://discord.gg/5VRabwR)** 
+- **[Ancient Isles University](https://discord.gg/RYFYDxRmVB)** 
+
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).

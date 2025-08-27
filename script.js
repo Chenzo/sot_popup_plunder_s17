@@ -40,11 +40,49 @@ const events = [
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', function() {
+    createFloatingDots();
     displayUserTimezone();
     renderEvents();
     setInterval(renderEvents, 60000);
     setInterval(updateCountdowns, 1000);
 });
+
+// Create floating background dots
+function createFloatingDots() {
+    const dotsContainer = document.getElementById('floating-dots');
+    
+    if (!dotsContainer) {
+        console.error('Floating dots container not found!');
+        return;
+    }
+    
+    const numberOfDots = 25; // Increased number of dots for better effect
+    
+    for (let i = 0; i < numberOfDots; i++) {
+        const dot = document.createElement('div');
+        dot.className = 'dot';
+        
+        // Random size between 3px and 12px (made slightly larger for visibility)
+        const size = Math.random() * 9 + 3;
+        dot.style.width = size + 'px';
+        dot.style.height = size + 'px';
+        
+        // Random horizontal position
+        dot.style.left = Math.random() * 100 + '%';
+        
+        // Random animation delay and duration
+        const delay = Math.random() * 8;
+        const duration = Math.random() * 6 + 8; // 8-14 seconds
+        dot.style.animationDelay = delay + 's';
+        dot.style.animationDuration = duration + 's';
+        
+        // Random opacity for variety
+        const opacity = Math.random() * 0.4 + 0.3; // 0.3 to 0.7
+        dot.style.opacity = opacity;
+        
+        dotsContainer.appendChild(dot);
+    }
+}
 
 // Display user's timezone
 function displayUserTimezone() {
